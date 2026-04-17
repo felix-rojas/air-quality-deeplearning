@@ -1,0 +1,143 @@
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 120.6174 - mae: 5.2252 - mape: 107151480.0000 - rmse: 10.9725
+Epoch 1: val_loss improved from inf to 109.29605, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 88s 54ms/step - loss: 120.6126 - mae: 5.2249 - mape: 107153536.0000 - rmse: 10.9723 - val_loss: 109.2961 - val_mae: 4.5592 - val_mape: 89573472.0000 - val_rmse: 10.4545
+Epoch 2/40
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 110.2448 - mae: 4.7347 - mape: 106172576.0000 - rmse: 10.4989
+Epoch 2: val_loss improved from 109.29605 to 106.75558, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 82s 52ms/step - loss: 110.2433 - mae: 4.7346 - mape: 106172240.0000 - rmse: 10.4988 - val_loss: 106.7556 - val_mae: 4.5845 - val_mape: 97131520.0000 - val_rmse: 10.3323
+Epoch 3/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 104.8223 - mae: 4.6772 - mape: 104497816.0000 - rmse: 10.2376
+Epoch 3: val_loss did not improve from 106.75558
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 82s 52ms/step - loss: 104.8249 - mae: 4.6772 - mape: 104497400.0000 - rmse: 10.2378 - val_loss: 126.0301 - val_mae: 5.7161 - val_mape: 126201472.0000 - val_rmse: 11.2263
+Epoch 4/40
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 105.4620 - mae: 4.6503 - mape: 103316472.0000 - rmse: 10.2685
+Epoch 4: val_loss improved from 106.75558 to 105.04883, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 82s 52ms/step - loss: 105.4624 - mae: 4.6503 - mape: 103316424.0000 - rmse: 10.2686 - val_loss: 105.0488 - val_mae: 4.5679 - val_mape: 102775816.0000 - val_rmse: 10.2493
+Epoch 5/40
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 104.8177 - mae: 4.6369 - mape: 102494424.0000 - rmse: 10.2375
+Epoch 5: val_loss did not improve from 105.04883
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 82s 52ms/step - loss: 104.8181 - mae: 4.6369 - mape: 102494272.0000 - rmse: 10.2375 - val_loss: 138.5829 - val_mae: 5.9123 - val_mape: 129117320.0000 - val_rmse: 11.7721
+Epoch 6/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 104.5311 - mae: 4.6235 - mape: 101810512.0000 - rmse: 10.2236
+Epoch 6: val_loss did not improve from 105.04883
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 82s 52ms/step - loss: 104.5315 - mae: 4.6235 - mape: 101810224.0000 - rmse: 10.2237 - val_loss: 115.7288 - val_mae: 4.7590 - val_mape: 91289368.0000 - val_rmse: 10.7577
+Epoch 7/40
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 103.0442 - mae: 4.6110 - mape: 100949840.0000 - rmse: 10.1507
+Epoch 7: val_loss did not improve from 105.04883
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 81s 52ms/step - loss: 103.0450 - mae: 4.6110 - mape: 100949768.0000 - rmse: 10.1507 - val_loss: 153.2767 - val_mae: 6.7443 - val_mape: 152485376.0000 - val_rmse: 12.3805
+Epoch 8/40
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 47ms/step - loss: 104.0727 - mae: 4.6078 - mape: 100137896.0000 - rmse: 10.2009
+Epoch 8: val_loss did not improve from 105.04883
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 81s 52ms/step - loss: 104.0725 - mae: 4.6078 - mape: 100137856.0000 - rmse: 10.2009 - val_loss: 123.8382 - val_mae: 5.3034 - val_mape: 116681200.0000 - val_rmse: 11.1283
+Epoch 9/40
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 47ms/step - loss: 103.8471 - mae: 4.6126 - mape: 100632304.0000 - rmse: 10.1889
+Epoch 9: val_loss did not improve from 105.04883
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 81s 52ms/step - loss: 103.8469 - mae: 4.6126 - mape: 100631960.0000 - rmse: 10.1889 - val_loss: 124.3943 - val_mae: 5.7086 - val_mape: 121763112.0000 - val_rmse: 11.1532
+Epoch 10/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 47ms/step - loss: 102.5492 - mae: 4.6051 - mape: 99310976.0000 - rmse: 10.1261
+Epoch 10: val_loss improved from 105.04883 to 103.60671, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 81s 52ms/step - loss: 102.5501 - mae: 4.6051 - mape: 99311936.0000 - rmse: 10.1262 - val_loss: 103.6067 - val_mae: 4.4798 - val_mape: 99679696.0000 - val_rmse: 10.1787
+Epoch 11/40
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 102.8606 - mae: 4.5963 - mape: 100311832.0000 - rmse: 10.1412
+Epoch 11: val_loss improved from 103.60671 to 102.51367, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 82s 52ms/step - loss: 102.8606 - mae: 4.5963 - mape: 100311648.0000 - rmse: 10.1412 - val_loss: 102.5137 - val_mae: 4.5238 - val_mape: 92166680.0000 - val_rmse: 10.1249
+Epoch 12/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 104.2051 - mae: 4.6008 - mape: 99957920.0000 - rmse: 10.2072
+Epoch 12: val_loss did not improve from 102.51367
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 82s 52ms/step - loss: 104.2030 - mae: 4.6008 - mape: 99957968.0000 - rmse: 10.2071 - val_loss: 108.1786 - val_mae: 4.4841 - val_mape: 92893472.0000 - val_rmse: 10.4009
+Epoch 13/40
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 102.6325 - mae: 4.6039 - mape: 99936152.0000 - rmse: 10.1301
+Epoch 13: val_loss improved from 102.51367 to 102.23578, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 83s 53ms/step - loss: 102.6324 - mae: 4.6039 - mape: 99936176.0000 - rmse: 10.1301 - val_loss: 102.2358 - val_mae: 4.4870 - val_mape: 94224400.0000 - val_rmse: 10.1112
+Epoch 14/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 104.0369 - mae: 4.6090 - mape: 100245840.0000 - rmse: 10.1988
+Epoch 14: val_loss improved from 102.23578 to 101.35094, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 82s 52ms/step - loss: 104.0345 - mae: 4.6090 - mape: 100245896.0000 - rmse: 10.1987 - val_loss: 101.3509 - val_mae: 4.8153 - val_mape: 101722872.0000 - val_rmse: 10.0673
+Epoch 15/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 101.6541 - mae: 4.5957 - mape: 100204336.0000 - rmse: 10.0815
+Epoch 15: val_loss improved from 101.35094 to 100.03345, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 82s 52ms/step - loss: 101.6547 - mae: 4.5957 - mape: 100204560.0000 - rmse: 10.0815 - val_loss: 100.0334 - val_mae: 4.6021 - val_mape: 100428464.0000 - val_rmse: 10.0017
+Epoch 16/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 48ms/step - loss: 103.5367 - mae: 4.6011 - mape: 100560560.0000 - rmse: 10.1711
+Epoch 16: val_loss did not improve from 100.03345
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 81s 52ms/step - loss: 103.5348 - mae: 4.6011 - mape: 100559720.0000 - rmse: 10.1710 - val_loss: 108.1034 - val_mae: 4.7158 - val_mape: 102003280.0000 - val_rmse: 10.3973
+Epoch 17/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 49ms/step - loss: 103.2934 - mae: 4.5950 - mape: 100098208.0000 - rmse: 10.1625
+Epoch 17: val_loss did not improve from 100.03345
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 83s 53ms/step - loss: 103.2914 - mae: 4.5950 - mape: 100098152.0000 - rmse: 10.1624 - val_loss: 102.7345 - val_mae: 4.4895 - val_mape: 84933648.0000 - val_rmse: 10.1358
+Epoch 18/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 51ms/step - loss: 101.2985 - mae: 4.5942 - mape: 99933992.0000 - rmse: 10.0637
+Epoch 18: val_loss did not improve from 100.03345
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 88s 56ms/step - loss: 101.2991 - mae: 4.5942 - mape: 99934600.0000 - rmse: 10.0637 - val_loss: 102.6726 - val_mae: 4.6863 - val_mape: 103580976.0000 - val_rmse: 10.1328
+Epoch 19/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 103.2993 - mae: 4.6056 - mape: 100675368.0000 - rmse: 10.1629
+Epoch 19: val_loss improved from 100.03345 to 99.80717, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 103.2970 - mae: 4.6055 - mape: 100674544.0000 - rmse: 10.1628 - val_loss: 99.8072 - val_mae: 4.6599 - val_mape: 102005864.0000 - val_rmse: 9.9904
+Epoch 20/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 101.1406 - mae: 4.5947 - mape: 99993576.0000 - rmse: 10.0566
+Epoch 20: val_loss did not improve from 99.80717
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 101.1408 - mae: 4.5947 - mape: 99993944.0000 - rmse: 10.0566 - val_loss: 105.1750 - val_mae: 4.5329 - val_mape: 95835440.0000 - val_rmse: 10.2555
+Epoch 21/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 100.7567 - mae: 4.5924 - mape: 100764520.0000 - rmse: 10.0372
+Epoch 21: val_loss did not improve from 99.80717
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 100.7578 - mae: 4.5924 - mape: 100764528.0000 - rmse: 10.0373 - val_loss: 107.8534 - val_mae: 4.7720 - val_mape: 107930992.0000 - val_rmse: 10.3852
+Epoch 22/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 101.6253 - mae: 4.6067 - mape: 101161256.0000 - rmse: 10.0806
+Epoch 22: val_loss improved from 99.80717 to 99.39239, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 101.6257 - mae: 4.6067 - mape: 101161224.0000 - rmse: 10.0806 - val_loss: 99.3924 - val_mae: 4.7035 - val_mape: 105056448.0000 - val_rmse: 9.9696
+Epoch 23/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 101.3522 - mae: 4.5991 - mape: 99978072.0000 - rmse: 10.0670
+Epoch 23: val_loss did not improve from 99.39239
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 101.3516 - mae: 4.5991 - mape: 99978320.0000 - rmse: 10.0670 - val_loss: 102.3359 - val_mae: 4.4906 - val_mape: 93955776.0000 - val_rmse: 10.1161
+Epoch 24/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 102.4188 - mae: 4.5983 - mape: 100287784.0000 - rmse: 10.1175
+Epoch 24: val_loss did not improve from 99.39239
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 102.4169 - mae: 4.5983 - mape: 100287704.0000 - rmse: 10.1174 - val_loss: 101.4863 - val_mae: 4.6210 - val_mape: 101999072.0000 - val_rmse: 10.0740
+Epoch 25/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 97.0595 - mae: 4.5805 - mape: 100296032.0000 - rmse: 9.8500
+Epoch 25: val_loss did not improve from 99.39239
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 97.0645 - mae: 4.5805 - mape: 100296680.0000 - rmse: 9.8503 - val_loss: 104.9654 - val_mae: 4.8290 - val_mape: 104456104.0000 - val_rmse: 10.2453
+Epoch 26/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 102.8914 - mae: 4.6138 - mape: 100866296.0000 - rmse: 10.1431
+Epoch 26: val_loss improved from 99.39239 to 97.99460, saving model to pm25_lstm_model_checkpoint.keras
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 102.8888 - mae: 4.6138 - mape: 100865912.0000 - rmse: 10.1430 - val_loss: 97.9946 - val_mae: 4.5452 - val_mape: 98739720.0000 - val_rmse: 9.8992
+Epoch 27/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 99.1228 - mae: 4.5764 - mape: 100416848.0000 - rmse: 9.9550
+Epoch 27: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 89s 57ms/step - loss: 99.1245 - mae: 4.5764 - mape: 100416448.0000 - rmse: 9.9551 - val_loss: 105.1226 - val_mae: 4.5830 - val_mape: 103278488.0000 - val_rmse: 10.2529
+Epoch 28/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 102.2110 - mae: 4.5967 - mape: 100495832.0000 - rmse: 10.1086
+Epoch 28: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 102.2094 - mae: 4.5967 - mape: 100495688.0000 - rmse: 10.1086 - val_loss: 103.4986 - val_mae: 4.8935 - val_mape: 108155104.0000 - val_rmse: 10.1734
+Epoch 29/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 99.8016 - mae: 4.5824 - mape: 99975360.0000 - rmse: 9.9896
+Epoch 29: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 89s 57ms/step - loss: 99.8023 - mae: 4.5824 - mape: 99975368.0000 - rmse: 9.9897 - val_loss: 102.8557 - val_mae: 4.6785 - val_mape: 104004824.0000 - val_rmse: 10.1418
+Epoch 30/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 98.9621 - mae: 4.5857 - mape: 99926776.0000 - rmse: 9.9474
+Epoch 30: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 89s 57ms/step - loss: 98.9638 - mae: 4.5857 - mape: 99927096.0000 - rmse: 9.9475 - val_loss: 100.8241 - val_mae: 4.5368 - val_mape: 93602416.0000 - val_rmse: 10.0411
+Epoch 31/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 99.9487 - mae: 4.5808 - mape: 99773736.0000 - rmse: 9.9969
+Epoch 31: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 89s 57ms/step - loss: 99.9492 - mae: 4.5808 - mape: 99774296.0000 - rmse: 9.9969 - val_loss: 100.8425 - val_mae: 4.7495 - val_mape: 105341952.0000 - val_rmse: 10.0420
+Epoch 32/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 100.4667 - mae: 4.5809 - mape: 100401496.0000 - rmse: 10.0223
+Epoch 32: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 90s 57ms/step - loss: 100.4655 - mae: 4.5809 - mape: 100400776.0000 - rmse: 10.0223 - val_loss: 102.3561 - val_mae: 4.5599 - val_mape: 93205216.0000 - val_rmse: 10.1171
+Epoch 33/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 52ms/step - loss: 99.6828 - mae: 4.5892 - mape: 100460648.0000 - rmse: 9.9834
+Epoch 33: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 88s 56ms/step - loss: 99.6835 - mae: 4.5892 - mape: 100460536.0000 - rmse: 9.9834 - val_loss: 108.9770 - val_mae: 4.9270 - val_mape: 105782968.0000 - val_rmse: 10.4392
+Epoch 34/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 51ms/step - loss: 101.0515 - mae: 4.5794 - mape: 99184320.0000 - rmse: 10.0521
+Epoch 34: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 88s 56ms/step - loss: 101.0500 - mae: 4.5794 - mape: 99185184.0000 - rmse: 10.0520 - val_loss: 104.9766 - val_mae: 4.8063 - val_mape: 100374456.0000 - val_rmse: 10.2458
+Epoch 35/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 51ms/step - loss: 99.7498 - mae: 4.5777 - mape: 99178848.0000 - rmse: 9.9872
+Epoch 35: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 88s 56ms/step - loss: 99.7502 - mae: 4.5777 - mape: 99179504.0000 - rmse: 9.9872 - val_loss: 99.5344 - val_mae: 4.6831 - val_mape: 107788184.0000 - val_rmse: 9.9767
+Epoch 36/40
+1557/1558 ━━━━━━━━━━━━━━━━━━━━ 0s 51ms/step - loss: 102.6389 - mae: 4.5955 - mape: 100015856.0000 - rmse: 10.1295
+Epoch 36: val_loss did not improve from 97.99460
+1558/1558 ━━━━━━━━━━━━━━━━━━━━ 87s 55ms/step - loss: 102.6358 - mae: 4.5955 - mape: 100015192.0000 - rmse: 10.1293 - val_loss: 106.7931 - val_mae: 4.7007 - val_mape: 108682816.0000 - val_rmse: 10.3341
