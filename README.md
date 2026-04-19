@@ -1,5 +1,11 @@
 # Air-quality-deeplearning
-Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using latitude, longitude, temperature, hour, day and wind speed.
+Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using:
+- Latitude
+- Longitude,
+- Temperature,
+- Hour
+- Day
+- Wind speed
 
 ## First (naive) approach
 
@@ -46,16 +52,16 @@ model = build_spatial_model(len(features))
 Despite these approaches, the results were unsatisfactory. After training for 40 epochs, the model showed a very low R-squared.
 
 The data is scaled, so after scaling it back to real world values we obtain:
-Real-World MAE:  4.73 µg/m³
-Real-World MSE:  112.45 (µg/m³)²
-Real-World RMSE: 10.60 µg/m³
-R-squared (R2):  0.1031
+- Real-World MAE:  4.73 µg/m³
+- Real-World MSE:  112.45 (µg/m³)²
+- Real-World RMSE: 10.60 µg/m³
+- R-squared (R2):  0.1031
 
 ### Evaluation Metrics
 
 #### MAE
 
-A Mean Absolute Error of 4.73 µg/m³ indicates that, on an average day, the model's prediction is off by about 4.7 µg/m³. This is a reasonable point as prediction but the larger issues stems from the
+A Mean Absolute Error of 4.73 µg/m³ indicates that, on an average day, the model's prediction is off by about 4.7 µg/m³. This is a reasonable point as prediction but the larger issues stems from the extremely low R-squared.
 
 #### MSE & RMSE
 
@@ -116,6 +122,7 @@ hour_cos = np.cos(2 * np.pi * hour_of_day / HOURS_IN_DAY)
 day_sin = np.sin(2 * np.pi * day_of_year / DAYS_IN_YEAR)
 day_cos = np.cos(2 * np.pi * day_of_year / DAYS_IN_YEAR)
 ```
+
 #### Time-space grouping
 
 Data is now clustered around location, using sorted time values. I'm naively using a 7 day grouping of data so that the model can infer a relation between the series, using the lat and lon pairs as ID's for locations.
