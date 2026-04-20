@@ -1,8 +1,8 @@
 # Air-quality-deeplearning
 Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using:
 - Latitude
-- Longitude,
-- Temperature,
+- Longitude
+- Temperature
 - Hour
 - Day
 - Wind speed
@@ -99,6 +99,30 @@ For this next approach I will use a LSTM configuration, so that the model learns
 
 ## Second approach
 
+Using a LSTM architecture, the model looks like this:
+
+```python
+def build_lstm_model(sequence_length, num_features):
+    model = models.Sequential([
+        layers.Input(shape=(sequence_length, num_features)),
+        layers.LSTM(64, return_sequences=False),
+        layers.BatchNormalization(),
+        layers.Dense(32, activation='relu'),
+        layers.Dense(16, activation='relu'),
+        layers.Dense(1)
+    ])
+    model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+    return model
+```
+
+The data uses a normalization layer to improve convergence during training. The Long Short Term Memory allows the model to correlate the time and space relations within a time series.
+
+I'm now aiming to make a recursive prediction model for PM 2.5 given the previous 7 hours, to see how good the model can actually predict the dissipation and accumulation of PM 2.5.
+
+This *temporal sliding model* approach has been used before and is used as reference to understand and improve this model:
+
+https://doi.org/10.1016/j.scs.2020.102567
+
 ### Preprocessing
 
 #### Cyclical encoding
@@ -125,4 +149,87 @@ day_cos = np.cos(2 * np.pi * day_of_year / DAYS_IN_YEAR)
 
 #### Time-space grouping
 
-Data is now clustered around location, using sorted time values. I'm naively using a 7 day grouping of data so that the model can infer a relation between the series, using the lat and lon pairs as ID's for locations.
+Data is now clustered around location, using sorted time values. I'm naively using a 7 hour grouping of data so that the model can infer a relation between the series, using the lat and lon pairs as ID's for locations.
+
+Using the features, it then predicts what the 8th hour would look like.
+
+### Model Results
+
+#### Training data characteristics
+
+These statistics were calculated to see if the model behaved better than guessing over the entire dataset.
+
+```
+--- Dataset PM2.5 Statistics ---
+Historical Mean:      8.28 µg/m³ 
+Standard Deviation:   11.10 µg/m³
+```
+
+These two show that the air quality on PM2.5 is usually clean, but the random spikes increase the variance, hence the high value of 11.10 µg/m³.
+
+The evaluation tresholds being used help me see if the model is underfitting or overfitting against the Test set.
+
+```
+--- Evaluation Thresholds ---
+Underfitting Limit (using MAD)  : 5.30 µg/m³
+Underfitting Limit (Persistence): 1.12 µg/m³
+Overfitting Gap Limit (15% Std) : 1.67 µg/m³
+```
+
+##### Model validation data
+
+Using the remaining validation data left to see how the model performs:
+
+```
+Training MAE:       1.1777 µg/m³
+Validation MAE:     1.1359 µg/m³
+Generalization Gap: -0.0418 µg/m³
+```
+
+Under these conditions, the model performs worse than the persistence baseline (1.12) against the validation by a small margin.
+
+The great news is that the model presents a small and negative generalization gap, meaning it is still not overfitting. Given that the gap limit is 1.67, there is still room for training. 
+
+#### Model Predictions
+
+I used the model to recursively calculate the next 10 days of EPA PM2.5 concentrations on an arbitrary place in 2024. The model is trained on data from 2018-2021 so it knows nothing of these datapoints.
+
+To my pleasant surprise, the model has a good fit, without accounting for the massive spikes, which are uncontrolled events (4th of july fireworks):
+
+```
+--- 10-Day Recursive Window Evaluation ---
+Location: State 19, County 163, Site 0015
+Period: 2024-07-01 to 2024-07-11
+Window MAE:  3.55 µg/m³
+Window RMSE: 5.68 µg/m³
+```
+
+The MAE window is acceptable under the given fluctuations, since it is much smaller than the historical average of 8.28 µg/m³, so it is better than just guessing.
+
+![alt text](img/recursive_forecast.png)
+
+My real surprise was on this following prediction. I assumed since the model was slightly underfit, that it might have not learnt any patterns, but it *looks like* it did.
+
+I gave the model a point where there was a large spike of PM 2.5 particles to see if the model had learned about PM 2.5 stabilization over time (due to wind and temperature conditions) and it looks like it did!
+
+```
+--- 10-Day Recursive Window Evaluation ---
+Location: State 19, County 163, Site 0015
+Period: 2024-07-04 to 2024-07-14
+Window MAE:  4.58 µg/m³
+Window RMSE: 7.34 µg/m³
+```
+
+The MAE and RMSE windows are larger here due to the 4th of July spikes.
+
+![alt text](img/recursive_forecast_with_spike.png)
+
+### Steps forward
+
+Given the abysmal difference between the first model that I tried (which barely improved and did not associate the time series data), it's safe to say this is the right path for prediction.
+
+Given that the overfit gap that I set to 15%, it might be worth training this model for longer and compare against the [current model baseline](model_checkpoints/current_lstm/pm25_lstm_model_checkpoint_epoch_21.keras).
+
+In the literature, there are reports of mixed architectures for prediction so I will look into some of these later:
+
+https://doi.org/10.1016/j.ese.2024.100400
