@@ -249,52 +249,57 @@ The MAE and RMSE windows are larger here due to the 4th of July spikes.
 
 ### Steps forward
 
+#### Hyper parameter change
+
 1. Increase the lookback hours in the model. Currently the model only uses 7 hours, I will increase the window to 24 or 48 hours to make sure that the model relates that data to the PM2.5 concentration and dispersal cycles.
 
 Given the abysmal difference between the first model that I tried (which barely improved and did not associate the time series data), it's safe to say this is the right path for prediction.
 
+#### Potentially more training
+
 The overfit gap set to 15%, it might be worth training this model for longer and compare against the [current model baseline](model_checkpoints/current_lstm/pm25_lstm_model_checkpoint_epoch_21.keras).
+
+I particularly fear that the model will start learning overfitting patterns from anomalies like wildfires, however.
+
+#### TS-LSTM with convolution layers
 
 In the literature, there are reports of mixed architectures for prediction so I will look into some of these later and to standardize the findings using DMES framework as reported by [S. Zhou et al. [5]](#zhou)
 
-
-Another particular improvement that has been reported is the encoding of latitude, longitude and time  
-
 ## Referenced works
-
 
 <a name="zhang">
 [1]
-B. Zhang et al., “Deep learning for air pollutant concentration prediction: A review,” Atmospheric Environment, vol. 290, p. 119347, Dec. 2022, doi: https://doi.org/10.1016/j.atmosenv.2022.119347.
 </a>
-
+B. Zhang et al., “Deep learning for air pollutant concentration prediction: A review,” Atmospheric Environment, vol. 290, p. 119347, Dec. 2022, doi: https://doi.org/10.1016/j.atmosenv.2022.119347.
+</br>
 
 <a name="klein">
 [2]
 </a>
 S. Klein, J. Raine, S. Pina-Otey, S. Voloshynovskiy, and T. Golling, “Funnels Exact maximum likelihood with dimensionality reduction.” Available: https://bayesiandeeplearning.org/2021/papers/39.pdf
-
+</br>
 
 <a name="ioffe">
 [3]
 </a>
 S. Ioffe, “Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift,” 2015. Available: https://arxiv.org/pdf/1502.03167‌
-
+</br>
 
 <a name="mao">
 [4]
 </a>
 W. Mao, W. Wang, L. Jiao, S. Zhao, and A. Liu, “Modeling air quality prediction using a deep learning approach: Method optimization and evaluation,” Sustainable Cities and Society, vol. 65, p. 102567, Feb. 2021, doi: https://doi.org/10.1016/j.scs.2020.102567.
-
+</br>
 ‌
 <a name="zhou">
 [5]
 </a>
 S. Zhou, W. Wang, L. Zhu, Q. Qiao, and Y. Kang, “Deep-learning architecture for PM2.5 concentration prediction: A review,” Environmental science & ecotechnology, pp. 100400–100400, Feb. 2024, doi: https://doi.org/10.1016/j.ese.2024.100400.
-
+</br>
 ‌
 <a name="yaroub">
 [6]
 </a>
 Yaroub Elloumi, Salim Khazem, Ibrahim Krayem, Jeyakaran Mahesananthan. Cyclical Temporal Encoding for
 Ensemble Deep Learning in Multistep Energy Forecasting. 2025. ⟨hal-05170016⟩
+</br>
