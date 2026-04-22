@@ -319,7 +319,7 @@ As a mater of fact, the model is so biased towards the baseline that it does not
 
 ### Next steps
 
-The next model has to return sequences to enable
+The next model has to return sequences when using the time series using the time-slide windows with LSTM layers
 
 ## Referenced works
 
