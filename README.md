@@ -276,6 +276,51 @@ I particularly fear that the model will start learning overfitting patterns from
 
 In the literature, there are reports of mixed architectures for prediction so I will look into some of these later and to standardize the findings using DMES framework as reported by [S. Zhou et al. [5]](#zhou)
 
+## Third approach
+
+### 24 hour model lstm (ReLU output + MinMaxScaler)
+
+```python
+def build_lstm_model_24hr(sequence_length, num_features):
+    model = tf.keras.models.Sequential([
+        tf.keras.layers.Input(shape=(sequence_length, num_features)),
+        tf.keras.layers.LSTM(64, return_sequences=False),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Dense(32, activation='relu'),
+        tf.keras.layers.Dense(16, activation='relu'),
+        tf.keras.layers.Dense(1, activation='relu')   # Non‑negative outputs
+    ])
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.0005, clipnorm=1.0)
+    model.compile(
+        optimizer=optimizer,
+        loss='mse',
+        metrics=['mae', tf.keras.metrics.RootMeanSquaredError(name='rmse')]
+    )
+    return model
+```
+
+### Increased time window
+
+I increased the previous time window to 24 hours, expecting better long time predictions, however the model started to experience recursive decay when predicting: As uncertainty grows, the model will tend towards the average. 
+
+### Scalar changes
+
+I changed the Scaler to MinMax since the datapoints shuld never be negative. This meant changing the scalers, as well as adjusting the last layer to reLu.
+
+### Results for this model
+
+In the short term of a 24 hour prediction, the model has definitely improved against the validation data but it is heavily biased towards the baseline.
+
+[24 hour prediction](/model_checkpoints/lstm_relu_2/24_hr_window.png)
+
+As a mater of fact, the model is so biased towards the baseline that it does not dare change the predictionfor the next points, becoming a flatline.
+
+[Flatlining](/model_checkpoints/lstm_relu_2/flat_line.png)
+
+### Next steps
+
+The next model has to return sequences to enable
+
 ## Referenced works
 
 <a name="zhang">
