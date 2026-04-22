@@ -1,4 +1,5 @@
 # Air-quality-deeplearning
+
 Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using:
 - Latitude
 - Longitude
@@ -7,7 +8,7 @@ Kaggle notebook to analyze and train a deep learning model to predict air qualit
 - Day
 - Wind speed
 
-## First (naive) approach
+## First (naive) approach - Feed Forward Fully Connected
 
 I decided to see if the model could figure out a relation a relationship between these data points with minimal processing.
 
@@ -15,13 +16,11 @@ I used all the hourly data from every available state in the USA to train the mo
 
 The model consisted of funneling layers and a batch normalization.
 
-The funneling was used due to its reported success on highdimensional data like images
+The funneling was used due to its reported success on highdimensional data like images by [S. Klein et al. [1]](#klein)
 
-https://bayesiandeeplearning.org/2021/papers/39.pdf
+> Crucially the funnel layer allows new transformations to be constructed and could improve the use of exact likelihood methods on tasks that require fast sampling with high dimensional data
 
-Batch normalization was added in hopes to accelerate the learning process as documented here:
-
-https://arxiv.org/pdf/1502.03167
+Batch normalization was added in hopes to accelerate the learning process as documented in the foundational paper for batch normalization by [S. Ioffe [2]](#ioffe).
 
 ```python
 import tensorflow as tf
@@ -97,7 +96,9 @@ In preprocessing, I need to asociate the time and space sequences.
 
 For this next approach I will use a LSTM configuration, so that the model learns the associations between time and space and PM2.5 levels.
 
-## Second approach
+LSTM has been reported in the literature as 
+
+## Second approach - LSTM 
 
 Using a LSTM architecture, the model looks like this:
 
@@ -119,11 +120,28 @@ The data uses a normalization layer to improve convergence during training. The 
 
 I'm now aiming to make a recursive prediction model for PM 2.5 given the previous 7 hours, to see how good the model can actually predict the dissipation and accumulation of PM 2.5.
 
-This *temporal sliding model* approach has been used before and is used as reference to understand and improve this model:
+This *temporal sliding model* approach has been used before and is used as reference to the paper by [W. Mao et al. [3]](#mao)
 
-https://doi.org/10.1016/j.scs.2020.102567
+In the paper, they use it to do a 24 hour prediction but I am quite tempted to make much longer preditcions and see what happens.
 
 ### Preprocessing
+
+#### Features and target
+
+In the review literature it has been shown that adding temperature and wind speed [4] to the PM2.5 prediction target improves the model significantly.
+
+```
+lstm_features = [
+    'latitude', 
+    'longitude', 
+    'temperature', 
+    'wind_speed', 
+    'day_sin', 
+    'day_cos', 
+    'hour_sin', 
+    'hour_cos']
+target_col = 'pm25_level'
+```
 
 #### Cyclical encoding
 
@@ -226,10 +244,41 @@ The MAE and RMSE windows are larger here due to the 4th of July spikes.
 
 ### Steps forward
 
+1. Increase the lookback hours in the model. Currently the model only uses 7 hours, I will increase the window to 24 or 48 hours to make sure that the model relates that data to the PM2.5 concentration and dispersal cycles.
+
 Given the abysmal difference between the first model that I tried (which barely improved and did not associate the time series data), it's safe to say this is the right path for prediction.
 
-Given that the overfit gap that I set to 15%, it might be worth training this model for longer and compare against the [current model baseline](model_checkpoints/current_lstm/pm25_lstm_model_checkpoint_epoch_21.keras).
+The overfit gap set to 15%, it might be worth training this model for longer and compare against the [current model baseline](model_checkpoints/current_lstm/pm25_lstm_model_checkpoint_epoch_21.keras).
 
-In the literature, there are reports of mixed architectures for prediction so I will look into some of these later:
+In the literature, there are reports of mixed architectures for prediction so I will look into some of these later and to standardize the findings using DMES framework as reported by [S. Zhou et al. [4]](#zhou)
 
-https://doi.org/10.1016/j.ese.2024.100400
+
+Another particular improvement that has been reported is the encoding of latitude, longitude and time  
+
+## Referenced works
+
+<a name="klein">
+[1]
+</a>
+S. Klein, J. Raine, S. Pina-Otey, S. Voloshynovskiy, and T. Golling, “Funnels Exact maximum likelihood with dimensionality reduction.” Available: https://bayesiandeeplearning.org/2021/papers/39.pdf
+
+
+
+<a name="ioffe">
+[2]
+</a>
+S. Ioffe, “Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift,” 2015. Available: https://arxiv.org/pdf/1502.03167‌
+
+
+
+<a name="mao">
+[3]
+</a>
+W. Mao, W. Wang, L. Jiao, S. Zhao, and A. Liu, “Modeling air quality prediction using a deep learning approach: Method optimization and evaluation,” Sustainable Cities and Society, vol. 65, p. 102567, Feb. 2021, doi: https://doi.org/10.1016/j.scs.2020.102567.
+
+‌
+<a name="zhou">
+[4]
+</a>
+S. Zhou, W. Wang, L. Zhu, Q. Qiao, and Y. Kang, “Deep-learning architecture for PM2.5 concentration prediction: A review,” Environmental science & ecotechnology, pp. 100400–100400, Feb. 2024, doi: https://doi.org/10.1016/j.ese.2024.100400.
+‌
