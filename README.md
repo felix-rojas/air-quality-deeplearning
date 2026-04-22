@@ -1,6 +1,7 @@
 # Air-quality-deeplearning
 
-Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using:
+Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using auxiliary features as reported in [Zhang et al. [1]](#zhang):
+
 - Latitude
 - Longitude
 - Temperature
@@ -16,11 +17,11 @@ I used all the hourly data from every available state in the USA to train the mo
 
 The model consisted of funneling layers and a batch normalization.
 
-The funneling was used due to its reported success on highdimensional data like images by [S. Klein et al. [1]](#klein)
+The funneling was used due to its reported success on highdimensional data like images by [S. Klein et al. [2]](#klein)
 
 > Crucially the funnel layer allows new transformations to be constructed and could improve the use of exact likelihood methods on tasks that require fast sampling with high dimensional data
 
-Batch normalization was added in hopes to accelerate the learning process as documented in the foundational paper for batch normalization by [S. Ioffe [2]](#ioffe).
+Batch normalization was added in hopes to accelerate the learning process as documented in the foundational paper for batch normalization by [S. Ioffe [3]](#ioffe).
 
 ```python
 import tensorflow as tf
@@ -58,6 +59,8 @@ The data is scaled, so after scaling it back to real world values we obtain:
 
 ### Evaluation Metrics
 
+The evaluation metrics are based on the review paper by [Zhang et al. [1]](#zhang) specifying the main metrics are MAE, RMSE, MAPE, SMAPE and R2
+
 #### MAE
 
 A Mean Absolute Error of 4.73 µg/m³ indicates that, on an average day, the model's prediction is off by about 4.7 µg/m³. This is a reasonable point as prediction but the larger issues stems from the extremely low R-squared.
@@ -77,7 +80,7 @@ As seen earlier, the data is prone to spikes and there are many other events whi
 
 Some of these spikes cannot be predicted, which leads to individual prediction errors and a bad RMSE score. This is expected but somewhat large, specially compared to current methods.
 
-#### R squared
+#### R2 (r squared)
 
 The R2 score of 0.1031 shows that the model only explains 10.31% of the variance in the PM2.5 data. The remaining 89.69% of the fluctuations in PM2.5 levels are completely missed.
 
@@ -120,7 +123,7 @@ The data uses a normalization layer to improve convergence during training. The 
 
 I'm now aiming to make a recursive prediction model for PM 2.5 given the previous 7 hours, to see how good the model can actually predict the dissipation and accumulation of PM 2.5.
 
-This *temporal sliding model* approach has been used before and is used as reference to the paper by [W. Mao et al. [3]](#mao)
+This *temporal sliding model* approach has been used before and is used as reference to the paper by [W. Mao et al. [4]](#mao)
 
 In the paper, they use it to do a 24 hour prediction but I am quite tempted to make much longer preditcions and see what happens.
 
@@ -128,7 +131,7 @@ In the paper, they use it to do a 24 hour prediction but I am quite tempted to m
 
 #### Features and target
 
-In the review literature it has been shown that adding temperature and wind speed [4] to the PM2.5 prediction target improves the model significantly.
+In the review literature it has been shown that adding temperature and wind speed [1] to the PM2.5 prediction target improves the model significantly.
 
 ```
 lstm_features = [
@@ -144,6 +147,8 @@ target_col = 'pm25_level'
 ```
 
 #### Cyclical encoding
+
+This approach is used in other time series for multi-step forecasting, see: [Yaroub Elloumi, et al.[5]](#yaroub)
 
 This is necessary for the model to recognize that the data will fluctuate naturally, rather than a linear representation like before. The linear representation introduces artificial distances in data that should be considered contiguous:
 
@@ -250,35 +255,46 @@ Given the abysmal difference between the first model that I tried (which barely 
 
 The overfit gap set to 15%, it might be worth training this model for longer and compare against the [current model baseline](model_checkpoints/current_lstm/pm25_lstm_model_checkpoint_epoch_21.keras).
 
-In the literature, there are reports of mixed architectures for prediction so I will look into some of these later and to standardize the findings using DMES framework as reported by [S. Zhou et al. [4]](#zhou)
+In the literature, there are reports of mixed architectures for prediction so I will look into some of these later and to standardize the findings using DMES framework as reported by [S. Zhou et al. [5]](#zhou)
 
 
 Another particular improvement that has been reported is the encoding of latitude, longitude and time  
 
 ## Referenced works
 
-<a name="klein">
+
+<a name="zhang">
 [1]
+B. Zhang et al., “Deep learning for air pollutant concentration prediction: A review,” Atmospheric Environment, vol. 290, p. 119347, Dec. 2022, doi: https://doi.org/10.1016/j.atmosenv.2022.119347.
+</a>
+
+
+<a name="klein">
+[2]
 </a>
 S. Klein, J. Raine, S. Pina-Otey, S. Voloshynovskiy, and T. Golling, “Funnels Exact maximum likelihood with dimensionality reduction.” Available: https://bayesiandeeplearning.org/2021/papers/39.pdf
 
 
-
 <a name="ioffe">
-[2]
+[3]
 </a>
 S. Ioffe, “Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift,” 2015. Available: https://arxiv.org/pdf/1502.03167‌
 
 
-
 <a name="mao">
-[3]
+[4]
 </a>
 W. Mao, W. Wang, L. Jiao, S. Zhao, and A. Liu, “Modeling air quality prediction using a deep learning approach: Method optimization and evaluation,” Sustainable Cities and Society, vol. 65, p. 102567, Feb. 2021, doi: https://doi.org/10.1016/j.scs.2020.102567.
 
 ‌
 <a name="zhou">
-[4]
+[5]
 </a>
 S. Zhou, W. Wang, L. Zhu, Q. Qiao, and Y. Kang, “Deep-learning architecture for PM2.5 concentration prediction: A review,” Environmental science & ecotechnology, pp. 100400–100400, Feb. 2024, doi: https://doi.org/10.1016/j.ese.2024.100400.
+
 ‌
+<a name="yaroub">
+[6]
+</a>
+Yaroub Elloumi, Salim Khazem, Ibrahim Krayem, Jeyakaran Mahesananthan. Cyclical Temporal Encoding for
+Ensemble Deep Learning in Multistep Energy Forecasting. 2025. ⟨hal-05170016⟩
