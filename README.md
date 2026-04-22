@@ -1,6 +1,17 @@
 # Air-quality-deeplearning
 
-Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using auxiliary features as reported in [Zhang et al. [1]](#zhang):
+## Objective
+
+Calculate a long time forecast of PM2.5 using auxiliary features to make hourly forecasts of PM2.5 concentrations.
+
+PM 2.5 particulates are known to be toxic for humans to inhale and gradually degrade the health of the inhabitants, particularly whne levels rise above 12.5. It is important to know how long the PM2.5 concentrations will last in an area to avoid long term damage, thus the existence of this predictive model.
+
+In summary, the model answers the question: 
+> If we have a specific date, location and other auxiliary variables and a window of past PM2.5 levels, can we accurately determine how PM2.5 particles will disseminate?
+
+## How
+
+Using a Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using auxiliary features as reported in [Zhang et al. [1]](#zhang):
 
 - Latitude
 - Longitude
