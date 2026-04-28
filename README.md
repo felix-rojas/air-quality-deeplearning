@@ -321,7 +321,7 @@ In the short term of a 24 hour prediction, the model has definitely improved aga
 
 ![24 hour prediction](/model_checkpoints/lstm_relu_2/24_hr_window.png)
 
-As a mater of fact, the model is so biased towards the baseline that it does not dare change the predictionfor the next points, becoming a flatline.
+As a mater of fact, the model is so biased towards the baseline that it does not dare change the prediction for the next points, becoming a flatline.
 
 ![Flatlining](/model_checkpoints/lstm_relu_2/flat_line.png)
 
@@ -425,4 +425,7 @@ S. Zhou, W. Wang, L. Zhu, Q. Qiao, and Y. Kang, “Deep-learning architecture fo
 </a>
 Yaroub Elloumi, Salim Khazem, Ibrahim Krayem, Jeyakaran Mahesananthan. Cyclical Temporal Encoding for
 Ensemble Deep Learning in Multistep Energy Forecasting. 2025. ⟨hal-05170016⟩. Available at https://hal.science/hal-05170016v1/file/Pre%CC%81visions%20E%CC%81nerge%CC%81tiques%20%282%29.pdf
+<<<<<<< HEAD
 </br></br>
+=======
+</br>
