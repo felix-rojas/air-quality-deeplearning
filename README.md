@@ -1,5 +1,18 @@
 # Air-quality-deeplearning
-Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using:
+
+## Objective
+
+Calculate a long time forecast of PM2.5 using auxiliary features to make hourly forecasts of PM2.5 concentrations.
+
+PM 2.5 particulates are known to be toxic for humans to inhale and gradually degrade the health of the inhabitants, particularly whne levels rise above 12.5. It is important to know how long the PM2.5 concentrations will last in an area to avoid long term damage, thus the existence of this predictive model.
+
+In summary, the model answers the question: 
+> If we have a specific date, location and other auxiliary variables and a window of past PM2.5 levels, can we accurately determine how PM2.5 particles will disseminate?
+
+## How
+
+Using a Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using auxiliary features as reported in [Zhang et al. [1]](#zhang):
+
 - Latitude
 - Longitude
 - Temperature
@@ -7,7 +20,7 @@ Kaggle notebook to analyze and train a deep learning model to predict air qualit
 - Day
 - Wind speed
 
-## First (naive) approach
+## First (naive) approach - Feed Forward Fully Connected
 
 I decided to see if the model could figure out a relation a relationship between these data points with minimal processing.
 
@@ -15,13 +28,11 @@ I used all the hourly data from every available state in the USA to train the mo
 
 The model consisted of funneling layers and a batch normalization.
 
-The funneling was used due to its reported success on highdimensional data like images
+The funneling was used due to its reported success on highdimensional data like images by [S. Klein et al. [2]](#klein)
 
-https://bayesiandeeplearning.org/2021/papers/39.pdf
+> Crucially the funnel layer allows new transformations to be constructed and could improve the use of exact likelihood methods on tasks that require fast sampling with high dimensional data
 
-Batch normalization was added in hopes to accelerate the learning process as documented here:
-
-https://arxiv.org/pdf/1502.03167
+Batch normalization was added in hopes to accelerate the learning process as documented in the foundational paper for batch normalization by [S. Ioffe [3]](#ioffe).
 
 ```python
 import tensorflow as tf
@@ -59,6 +70,8 @@ The data is scaled, so after scaling it back to real world values we obtain:
 
 ### Evaluation Metrics
 
+The evaluation metrics are based on the review paper by [Zhang et al. [1]](#zhang) specifying the main metrics are MAE, RMSE, MAPE, SMAPE and R2
+
 #### MAE
 
 A Mean Absolute Error of 4.73 µg/m³ indicates that, on an average day, the model's prediction is off by about 4.7 µg/m³. This is a reasonable point as prediction but the larger issues stems from the extremely low R-squared.
@@ -78,7 +91,7 @@ As seen earlier, the data is prone to spikes and there are many other events whi
 
 Some of these spikes cannot be predicted, which leads to individual prediction errors and a bad RMSE score. This is expected but somewhat large, specially compared to current methods.
 
-#### R squared
+#### R2 (r squared)
 
 The R2 score of 0.1031 shows that the model only explains 10.31% of the variance in the PM2.5 data. The remaining 89.69% of the fluctuations in PM2.5 levels are completely missed.
 
@@ -97,7 +110,9 @@ In preprocessing, I need to asociate the time and space sequences.
 
 For this next approach I will use a LSTM configuration, so that the model learns the associations between time and space and PM2.5 levels.
 
-## Second approach
+LSTM has been reported in the literature as 
+
+## Second approach - LSTM 
 
 Using a LSTM architecture, the model looks like this:
 
@@ -119,13 +134,32 @@ The data uses a normalization layer to improve convergence during training. The 
 
 I'm now aiming to make a recursive prediction model for PM 2.5 given the previous 7 hours, to see how good the model can actually predict the dissipation and accumulation of PM 2.5.
 
-This *temporal sliding model* approach has been used before and is used as reference to understand and improve this model:
+This *temporal sliding model* approach has been used before and is used as reference to the paper by [W. Mao et al. [4]](#mao)
 
-https://doi.org/10.1016/j.scs.2020.102567
+In the paper, they use it to do a 24 hour prediction but I am quite tempted to make much longer preditcions and see what happens.
 
 ### Preprocessing
 
+#### Features and target
+
+In the review literature it has been shown that adding temperature and wind speed [1] to the PM2.5 prediction target improves the model significantly.
+
+```
+lstm_features = [
+    'latitude', 
+    'longitude', 
+    'temperature', 
+    'wind_speed', 
+    'day_sin', 
+    'day_cos', 
+    'hour_sin', 
+    'hour_cos']
+target_col = 'pm25_level'
+```
+
 #### Cyclical encoding
+
+This approach is used in other time series for multi-step forecasting, see: [Yaroub Elloumi, et al.[5]](#yaroub)
 
 This is necessary for the model to recognize that the data will fluctuate naturally, rather than a linear representation like before. The linear representation introduces artificial distances in data that should be considered contiguous:
 
@@ -226,10 +260,159 @@ The MAE and RMSE windows are larger here due to the 4th of July spikes.
 
 ### Steps forward
 
+#### Hyper parameter change
+
+1. Increase the lookback hours in the model. Currently the model only uses 7 hours, I will increase the window to 24 or 48 hours to make sure that the model relates that data to the PM2.5 concentration and dispersal cycles.
+
 Given the abysmal difference between the first model that I tried (which barely improved and did not associate the time series data), it's safe to say this is the right path for prediction.
 
-Given that the overfit gap that I set to 15%, it might be worth training this model for longer and compare against the [current model baseline](model_checkpoints/current_lstm/pm25_lstm_model_checkpoint_epoch_21.keras).
+#### Potentially more training
 
-In the literature, there are reports of mixed architectures for prediction so I will look into some of these later:
+The overfit gap set to 15%, it might be worth training this model for longer and compare against the [current model baseline](model_checkpoints/current_lstm/pm25_lstm_model_checkpoint_epoch_21.keras).
 
-https://doi.org/10.1016/j.ese.2024.100400
+I particularly fear that the model will start learning overfitting patterns from anomalies like wildfires, however.
+
+#### TS-LSTM with convolution layers
+
+In the literature, there are reports of mixed architectures for prediction so I will look into some of these later and to standardize the findings using DMES framework as reported by [S. Zhou et al. [5]](#zhou)
+
+## Third approach
+
+### 24 hour model lstm (ReLU output + MinMaxScaler)
+
+```python
+def build_lstm_model_24hr(sequence_length, num_features):
+    model = tf.keras.models.Sequential([
+        tf.keras.layers.Input(shape=(sequence_length, num_features)),
+        tf.keras.layers.LSTM(64, return_sequences=False),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Dense(32, activation='relu'),
+        tf.keras.layers.Dense(16, activation='relu'),
+        tf.keras.layers.Dense(1, activation='relu')   # Non‑negative outputs
+    ])
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.0005, clipnorm=1.0)
+    model.compile(
+        optimizer=optimizer,
+        loss='mse',
+        metrics=['mae', tf.keras.metrics.RootMeanSquaredError(name='rmse')]
+    )
+    return model
+```
+
+### Increased time window
+
+I increased the previous time window to 24 hours, expecting better long time predictions, however the model started to experience recursive decay when predicting: As uncertainty grows, the model will tend towards the average. 
+
+### Scalar changes
+
+I changed the Scaler to MinMax since the datapoints shuld never be negative. This meant changing the scalers, as well as adjusting the last layer to reLu.
+
+### Results for this model
+
+In the short term of a 24 hour prediction, the model has definitely improved against the validation data but it is heavily biased towards the baseline.
+
+![24 hour prediction](/model_checkpoints/lstm_relu_2/24_hr_window.png)
+
+As a mater of fact, the model is so biased towards the baseline that it does not dare change the predictionfor the next points, becoming a flatline.
+
+![Flatlining](/model_checkpoints/lstm_relu_2/flat_line.png)
+
+### Next steps
+
+The next model has to return sequences when using the time series using the time-slide windows with LSTM layers
+
+## Final Model
+
+The final model was separated into a new file to avoid the clutter from experimentation and is available here fro easy running:
+[Sequence to sequence model with 24 hr window](https://www.kaggle.com/code/flixrojas/final-s2s)
+
+It needs some time to run to generate the files for validation and will continue to do some training after around epoch 73. This is where the model has good predictions without overfitting. The overfitting on this model begins to show when the periodic oscillations are taken into consideration more often rather than the actual datapoints it predicts.
+
+The model presents the following architecture: TS-LSTM (time series long short term memory). It uses a 24 hour window to generate a a 24 hour window of predictions using sequence to sequence encoding.
+
+Predictions in these types of models are expected to deviate further from the truth as the prediction window increases. This is to be expected given the unexpected sudden rises in PM2.5 due to random fires or currents carrying the PM2.5 particles from adjacent places.
+
+All of the previous epochs are available here: [Google Drive Link](https://drive.google.com/drive/u/0/folders/19jRDKCA8vWJ3-OCe8AYGijC71VuE3WNO)
+
+### 10 day forecast
+
+#### 74 epochs
+
+![74 epochs model 10 day forecast for PM2.5](img/10_day_forecast_epoch_74.png)
+
+#### 88 epochs
+
+![88 epochs model 10 day forecast for PM2.5](img/10_day_forecast_epoch_88.png)
+
+### 4 day forecast
+
+#### 74 epochs
+
+![74 epochs model 4 day forecast for PM2.5](img/4_day_forecast_epoch_74.png)
+
+#### 88 epochs
+
+![88 epochs model 4 day forecast for PM2.5](img/4_day_forecast_epoch_88.png)
+
+### 2 day forecast
+
+This is where the model really begins to shine. Short term predictions are usually very close to the expected value and adapt accordingly.
+
+These are acceptable predictions but most importantly, this model shows that previous data (2018-2021) CAN be used to predict acceptable results in data from further years like **2024** in the case for these predictions. 
+
+#### 74 epochs
+
+![74 epochs model 2 day forecast for PM2.5](img/2_day_forecast_epoch_74.png)
+
+#### 88 epochs
+
+![88 epochs model 2 day forecast for PM2.5](img/2_day_forecast_epoch_88.png)
+
+## Conclusions
+
+1. Results are better when the time window is expanded. I attempted a 7 hour window and it did not adapt to the patterns as well as the 24 time window model did.
+
+2. Cyclical embedding massively helps the model to make the prediction fluctuations and adjust to the day/night cycles with temperature and wind.
+
+3. Additional features help tremendously when predicting PM2.5 concentrations, particularly wind speed.
+
+4. This model can potentially be improved by encoding geo-spatial relational data. This was shown in [Mao et al. [4]](#mao) [S. Zhou et al. [5]](#zhou). In this particular recreation I struggled with HDD size limitations, hence why this was not implemented.
+
+## Referenced works
+
+<a name="zhang">
+[1]
+</a>
+B. Zhang et al., “Deep learning for air pollutant concentration prediction: A review,” Atmospheric Environment, vol. 290, p. 119347, Dec. 2022, doi: https://doi.org/10.1016/j.atmosenv.2022.119347.
+</br></br>
+
+<a name="klein">
+[2]
+</a>
+S. Klein, J. Raine, S. Pina-Otey, S. Voloshynovskiy, and T. Golling, “Funnels Exact maximum likelihood with dimensionality reduction.” Available: https://bayesiandeeplearning.org/2021/papers/39.pdf
+</br></br>
+
+<a name="ioffe">
+[3]
+</a>
+S. Ioffe, “Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift,” 2015. Available: https://arxiv.org/pdf/1502.03167‌
+</br></br>
+
+<a name="mao">
+[4]
+</a>
+W. Mao, W. Wang, L. Jiao, S. Zhao, and A. Liu, “Modeling air quality prediction using a deep learning approach: Method optimization and evaluation,” Sustainable Cities and Society, vol. 65, p. 102567, Feb. 2021, doi: https://doi.org/10.1016/j.scs.2020.102567.
+</br></br>
+‌
+<a name="zhou">
+[5]
+</a>
+S. Zhou, W. Wang, L. Zhu, Q. Qiao, and Y. Kang, “Deep-learning architecture for PM2.5 concentration prediction: A review,” Environmental science & ecotechnology, pp. 100400–100400, Feb. 2024, doi: https://doi.org/10.1016/j.ese.2024.100400.
+</br></br>
+‌
+<a name="yaroub">
+[6]
+</a>
+Yaroub Elloumi, Salim Khazem, Ibrahim Krayem, Jeyakaran Mahesananthan. Cyclical Temporal Encoding for
+Ensemble Deep Learning in Multistep Energy Forecasting. 2025. ⟨hal-05170016⟩. Available at https://hal.science/hal-05170016v1/file/Pre%CC%81visions%20E%CC%81nerge%CC%81tiques%20%282%29.pdf
+</br></br>
