@@ -323,10 +323,12 @@ The next model has to return sequences when using the time series using the time
 
 ## Final Model
 
-The final model was separated into a new file to avoid the clutter from experimentation and is available here fro easy running:
+The final model was separated into a new file to avoid the clutter from experimentation and is available here for easy running:
 [Sequence to sequence model with 24 hr window](https://www.kaggle.com/code/flixrojas/final-s2s)
 
-It needs some time to run to generate the files for validation and will continue to do some training after around epoch 73. This is where the model has good predictions without overfitting. The overfitting on this model begins to show when the periodic oscillations are taken into consideration more often rather than the actual datapoints it predicts.
+This is the final architecture: ![final model architecture](/img/final_model_architecture.png)
+
+It needs some time to run to generate the files for validation and start from epoch 88. This is where the model has good predictions without overfitting. The overfitting on this model begins to show when the periodic oscillations are taken into consideration more often rather than the actual datapoints it predicts.
 
 The model presents the following architecture: TS-LSTM (time series long short term memory). It uses a 24 hour window to generate a a 24 hour window of predictions using sequence to sequence encoding.
 
@@ -376,7 +378,7 @@ These are acceptable predictions but most importantly, this model shows that pre
 
 3. Additional features help tremendously when predicting PM2.5 concentrations, particularly wind speed.
 
-4. This model can potentially be improved by encoding geo-spatial relational data. This was shown in [Mao et al. [4]](#mao) [S. Zhou et al. [5]](#zhou). In this particular recreation I struggled with HDD size limitations, hence why this was not implemented.
+4. This model can potentially be improved by encoding geo-spatial relational data. This was shown in [Mao et al. [4]](#mao) and [S. Zhou et al. [5]](#zhou). In this particular recreation I struggled with HDD size limitations, hence why this was not implemented.
 
 ## Referenced works
 
