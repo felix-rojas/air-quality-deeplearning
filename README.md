@@ -9,6 +9,14 @@ PM 2.5 particulates are known to be toxic for humans to inhale and gradually deg
 In summary, the model answers the question: 
 > If we have a specific date, location and other auxiliary variables and a window of past PM2.5 levels, can we accurately determine how PM2.5 particles will disseminate?
 
+### Final model
+
+The final model is available in this [python notebook](final_notebook.ipynb).
+
+It is also available in [Kaggle by clicking here](https://www.kaggle.com/code/flixrojas/final-s2s?scriptVersionId=315069138)
+
+This was separated to show the final concise product while keeping the original experimentation notebooks to showcase my trial and failure attempts throughout this project. 
+
 ## How
 
 Using a Kaggle notebook to analyze and train a deep learning model to predict air quality (PM2.5) using auxiliary features as reported in [Zhang et al. [1]](#zhang):
